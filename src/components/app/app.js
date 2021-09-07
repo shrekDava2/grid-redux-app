@@ -46,25 +46,24 @@ import {
                     <div className = "info">
                         { grids }
                     </div>  
-                    <Switch>
-                      {keys.map((key) => {
-                        const idx = keys.findIndex((el) => el === key) 
-                        const lastidx = keys.length -1
-                        return(  <Route key={key}   
-                                        path={`/${key}`} 
-                                        render = {() => {
-                                          return ( <div>      
-                                                      <TabPanel data = { keys } 
-                                                                name = { key }/>
-                                                      <Grid     gridData={ data[key] } 
-                                                                name = { key } 
-                                                                onMoveRight = { idx !== lastidx ? (ids) => onMoveToRight (key, ids) : undefined }
-                                                                onMoveLeft = { idx !== 0 ? (ids) => onMoveToLeft (key, ids) : undefined}
-                                                                />
-                                                    </div>)}}   
-                                    />)
-                          })}
-                        <Route path="/" exact render= {() => {return <Redirect to={`/${keys[0]}`} />}} />
+                    <Switch>                     
+                        <Route    
+                            path={"/:key"} 
+                            render = {( { match }) => {
+                              const { key } = match.params
+                              const idx = keys.findIndex((el) => el === key) 
+                              const lastidx = keys.length -1
+                              return ( <div>      
+                                          <TabPanel data = { keys } 
+                                                    name = { key }/>
+                                          <Grid     gridData={ data[key] } 
+                                                    name = { key } 
+                                                    onMoveRight = { idx !== lastidx ? (ids) => onMoveToRight (key, ids) : undefined }
+                                                    onMoveLeft = { idx !== 0 ? (ids) => onMoveToLeft (key, ids) : undefined}
+                                                    />
+                                        </div>)}}   
+                          />
+                          <Route path="/" exact render= {() => {return <Redirect to={`/${keys[0]}`} />}} />
                       </Switch>
                   </div>
                 </Router>
