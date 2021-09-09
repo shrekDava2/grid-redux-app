@@ -1,48 +1,50 @@
+import * as actionsType from '../actions-type'
 
-const gridLoaded = (newItems) => {
+
+const gridLoaded = newItems => {
   return {
-    type: 'FETH_GRID_SUCCESS',
+    type: actionsType.FETH_GRID_SUCCESS,
     payload: newItems
   };
 };
 
 const gridRequested = () => {
   return {
-    type: 'FETH_GRID_REQUEST'
+    type: actionsType.FETH_GRID_REQUEST
   };
 };
 
-const gridError = (error) => {
+const gridError = error => {
   return {
-    type: 'FETH_GRID_FAILURE',
+    type: actionsType.FETH_GRID_FAILURE,
     payload: error
   };
 };
 
-const onMoveToLeft = (from, ids) => {
+const onMove = prop => {
   return{
-    type: 'ON_MOVE_TO_LEFT',
-    payload: {from, ids}
+    type: actionsType.ON_MOVE,
+    payload: prop
   }
 }
-
-const onMoveToRight = (from, ids) => {
+/*
+const fetchKeys = () => {
   return{
-    type: 'ON_MOVE_TO_RIGHT',
-    payload: {from, ids}
+    type: actionsType.FETH_KEYS
   }
 }
-
+*/
 const fetchGrids = (gridService, dispatch) => () => {
   dispatch(gridRequested())
   gridService.getGrids()
-            .then((data) => dispatch( gridLoaded(data)))
-            .catch((error) => dispatch(gridError(error)))
+            .then( data   => dispatch(gridLoaded(data)))
+            .catch( error => dispatch(gridError(error)))
 }
+
 export {
-  onMoveToRight,
-  onMoveToLeft,
+  onMove,
   fetchGrids,
+  //fetchKeys,
   gridError,
   gridRequested,
   gridLoaded
