@@ -8,15 +8,15 @@ import { withGridService }  from '../hoc'
 import { connect }          from 'react-redux'
 import { compose }          from '../../utils'
 import './app.css'
+import {   
+         onMove,
+         fetchGrids
+        }                   from '../../actions'
 import {
-          onMoveToLeft, 
-          onMoveToRight,
-          fetchGrids }      from '../../actions'
-import {
-          BrowserRouter as Router,  
-          Route, 
-          Redirect, 
-          Switch }              from 'react-router-dom'
+        BrowserRouter as Router,  
+        Route, 
+        Redirect, 
+        Switch }            from 'react-router-dom'
 
 
  class App extends Component {
@@ -25,45 +25,56 @@ import {
   }
 
   render() {
-      const { data, loading, error , onMoveToLeft, onMoveToRight } = this.props
-      const keys = Object.keys(data)
+      const { data, loading, error, onMove } = this.props
       if( loading )     return <Spinner/>    
       if( error )       return <ErrorIndicator/>
-      
+      const keys = Object.keys(data)
       const grids =  keys.map(key => {
-                      const idx = keys.findIndex((el) => el === key) 
+                      const idx     = keys.findIndex(el => el === key) 
+                      const prev    = keys[idx - 1] 
+                      const next    = keys[idx + 1]
                       const lastidx = keys.length -1
-                      return ( <Grid  key={key} 
-                                      gridData={ data[key] }  
-                                      isInfo = { 'short' }
-                                      name = { key }  
-                                      onMoveRight = { idx !== lastidx ? (ids) => onMoveToRight (key, ids) : undefined }
-                                      onMoveLeft = { idx !== 0 ? (ids) => onMoveToLeft (key, ids) : undefined}
+                      return ( <Grid  
+                                      key         = { key } 
+                                      gridData    = { data[key] }  
+                                      isInfo      = { 'short' }
+                                      name        = { key }  
+                                      onMoveRight = { idx !== lastidx ? ids => onMove ({ from: key, to: next, ids })  : undefined }
+                                      onMoveLeft  = { idx !== 0       ? ids => onMove ({ from: key, to: prev, ids })   : undefined }
                             />)})
-      return (<Router>
-                  <div className="stardb-app">
+      return ( <Router>
+                  <div className = "stardb-app">
                     <Header />
                     <div className = "info">
                         { grids }
                     </div>  
                     <Switch>                     
                         <Route    
-                            path={"/:key"} 
-                            render = {( { match }) => {
+                            path    = { "/:key" } 
+                            render  = { ({ match }) => {
                               const { key } = match.params
-                              const idx = keys.findIndex((el) => el === key) 
+                              const idx     = keys.findIndex(el => el === key) 
+                              const prev    =  keys[idx - 1] 
+                              const next    =  keys[idx + 1]
                               const lastidx = keys.length -1
                               return ( <div>      
-                                          <TabPanel data = { keys } 
+                                          <TabPanel
+                                                    data = { keys } 
                                                     name = { key }/>
-                                          <Grid     gridData={ data[key] } 
-                                                    name = { key } 
-                                                    onMoveRight = { idx !== lastidx ? (ids) => onMoveToRight (key, ids) : undefined }
-                                                    onMoveLeft = { idx !== 0 ? (ids) => onMoveToLeft (key, ids) : undefined}
+
+                                          <Grid     
+                                                    gridData    = { data[key] } 
+                                                    name        = { key } 
+                                                    onMoveRight = { idx !== lastidx ? ids => onMove ({ from: key, to: next, ids }) : undefined }
+                                                    onMoveLeft  = { idx !== 0       ? ids => onMove ({ from: key, to: prev, ids }) : undefined }                                                   
                                                     />
-                                        </div>)}}   
+                                        </div>) } }   
                           />
-                          <Route path="/" exact render= {() => {return <Redirect to={`/${keys[0]}`} />}} />
+                          <Route 
+                              path="/" 
+                              exact 
+                              render= { () => { return <Redirect to={`/${keys[0]}`} /> } } 
+                          />
                       </Switch>
                   </div>
                 </Router>
@@ -71,17 +82,15 @@ import {
     }
 }
 
-const mapStateToProps = ({data, loading, error}) => {
-  return {data, loading, error}
+const mapStateToProps = ({ data, loading, error }) => {
+  return { data, loading, error }
 }
 const mapDispatchtoProps = (dispatch, { gridService }) => {
    return{
     fetchGrids: fetchGrids(gridService, dispatch),
-    onMoveToLeft: (from,ids) => dispatch(onMoveToLeft(from,ids)),
-    onMoveToRight: (from,ids) => dispatch(onMoveToRight(from,ids))   
+    onMove: prop => dispatch(onMove(prop))
   }   
 }
-
 
 export default  compose(
   withGridService(),
