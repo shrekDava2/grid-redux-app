@@ -16,8 +16,6 @@ const move = ({ data }, { from, to, ids }) => {
 }
 
 const reducer = (state = initialState, action) => {
-
-
   switch (action.type) {
     case actionsType.ON_MOVE:
       return{
@@ -25,31 +23,31 @@ const reducer = (state = initialState, action) => {
         data: move(state, action.payload)
       }
     case actionsType.FETH_KEYS:
-      return Object.keys(state.data);
+      return Object.keys(state.data)
 
     case actionsType.FETH_GRID_REQUEST:
       return {
         data: {},
         loading: true,
         error: null
-      };
+      }
     case actionsType.FETH_GRID_SUCCESS:
       return {
         data:     action.payload,
         loading:  false,
         error:    null
-      };
+      }
 
     case actionsType.FETH_GRID_FAILURE:
-    return {
-      data:     {},
-      loading:  false,
-      error:    action.payload
-    };
+      return {
+        data:     {},
+        loading:  false,
+        error:    action.payload
+      }
 
     default:
       return state
   }
-};
+}
 
 export default reducer
