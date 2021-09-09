@@ -1,20 +1,20 @@
-import React from 'react';
-import { GridServiceConsumer } from '../grid-service-context';
+import React                    from 'react'
+import { GridServiceConsumer }  from '../grid-service-context'
 
-const withGridService = () => (Wrapped) => {
+const withGridService = () => Wrapped => {
 
-  return (props) => {
+  return props => {
     return (
       <GridServiceConsumer>
         {
-          (gridService) => {
-            return (<Wrapped {...props}
-                     gridService={gridService}/>);
+          gridService => {
+            return (<Wrapped { ...props }
+                     gridService={ gridService }/>)
           }
         }
       </GridServiceConsumer>
-    );
+    )
   }
-};
+}
 
-export default withGridService;
+export default withGridService
