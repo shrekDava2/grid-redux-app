@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 const {
   Provider: GridServiceProvider,
   Consumer: GridServiceConsumer
-} = React.createContext();
+} = React.createContext()
 
 export {
   GridServiceProvider,
   GridServiceConsumer
-};
+}
