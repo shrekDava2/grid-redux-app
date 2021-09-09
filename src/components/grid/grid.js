@@ -44,11 +44,11 @@ class Grid extends Component {
   
   render () {
 
-    const { checkedIds } = this.state
+    const { checkedIds }    = this.state
     const { gridData, onMoveLeft, onMoveRight, ...props } = this.props
-    const { name, isInfo } = props
-    const checkedAll      =  checkedIds.length === gridData.length && gridData.length > 0 
-    const checkedAllInd   =  !checkedAll && checkedIds.length > 0     
+    const { name, isInfo }  = props
+    const checkedAll        = checkedIds.length === gridData.length && gridData.length > 0 
+    const checkedAllInd     = !checkedAll && checkedIds.length > 0     
 
     const elements =  gridData.map( item  => {
                           const { id,  ...itemProps } = item    
@@ -87,5 +87,5 @@ class Grid extends Component {
     )
   }
 }
-export default Grid;
+export default Grid
 
