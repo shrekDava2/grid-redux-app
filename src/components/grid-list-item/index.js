@@ -1,3 +1,3 @@
-import GridListItem from './grid-list-item';
+import GridListItem from './grid-list-item'
 
-export default GridListItem;
+export default GridListItem

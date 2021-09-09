@@ -1,15 +1,15 @@
-import React ,{Component}     from 'react'
-import Buttom                 from '../button'
+import React ,{ Component }     from 'react'
+import Buttom                   from '../button'
 
 import './grid-list-item.css'
 
 export default class GridListItem extends Component {
 
-  render(){
+  render() {
     const { id, title, ids, addClass, checked, toggleCheckbox, checkedAllInd, onMoveLeft, onMoveRight } = this.props  
     return (
-      <li key={ id } 
-          className={`list-group-item ${ addClass }`}>
+      <li key         = { id } 
+          className   = { `list-group-item ${ addClass }` }>
         <input  
             type      ="checkbox" 
             ref       = { el => el && (el.indeterminate = checkedAllInd) }
