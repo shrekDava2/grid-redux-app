@@ -1,17 +1,21 @@
-import React        from 'react';
+import React        from 'react'
 import { Link }     from 'react-router-dom'
 
-import './tab-panel.css';
+import './tab-panel.css'
 
 const TabPanel = ({ data, name }) => {
 
   const items = data.map((item,idx) => {
     const active = name === item ? 'active' : ''
     return (
-        <li key={idx} className="nav-item">
-            <Link   className   ={ `nav-link ${ active }` }
-                    to          ={ `/${item}` }
-                >{item}
+        <li 
+          key         = { idx } 
+          className   = "nav-item">
+            <Link   
+                className   = { `nav-link ${ active }` }
+                to          = { `/${item}` }
+            >
+                  { item }
             </Link>
         </li>
       )
@@ -19,9 +23,9 @@ const TabPanel = ({ data, name }) => {
   return (
       <div className="header-my">
           <ul className="nav nav-tabs">
-              {items}
+              { items }
           </ul>
       </div>
     )
   }  
-export default TabPanel;
+export default TabPanel
