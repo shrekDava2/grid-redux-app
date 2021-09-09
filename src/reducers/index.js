@@ -1,83 +1,55 @@
-const moveLeft = (state, payload) => {
-  const { from , ids } = payload
-  const grids = state.data
-  const keys = Object.keys(grids)      
-  const fromArray = grids[from].filter(
-      (val) => ids.map((item) => item).indexOf(val.id) === -1
-  )
-  const toArray = grids[from].filter(
-      (val) => ids.map((item) => item).indexOf(val.id) > -1
-   )  
-  const to = keys[keys.findIndex(x => x === from ) - 1];         
-  return { ...state.data,
-      [from]: [...fromArray],
-      [to]: [...grids[to], ...toArray]
-      }
-}
-
-const moveRight = (state, payload) => {
-  const { from , ids } = payload
-  const grids = state.data
-  const keys = Object.keys(grids)
-  const fromArray = grids[from].filter(
-      (val) => ids.map((item) => item).indexOf(val.id) === -1
-  )
-  const toArray = grids[from].filter(
-      (val) => ids.map((item) => item).indexOf(val.id) > -1
-  ) 
-  const to = keys[keys.findIndex(x => x === from ) + 1];         
-  return { ...state.data,
-      [from]: [...fromArray],
-      [to]: [...grids[to], ...toArray]
-  }
-}
-
+import * as actionsType from '../actions-type'
 
 const initialState = { 
-    data:[],
-    loading: true,
-    error: null
-};
+  data:     {},
+  loading:  true,
+  error:    null
+}
+const move = ({ data }, { from, to, ids }) => {
+  const fromArray = data[from].filter(val => !ids.includes(val.id))  
+  const toArray   = data[from].filter(val => ids.includes(val.id))  
+  return {  
+        ...data,
+        [from]: [...fromArray],
+        [to]: [...data[to], ...toArray]
+      }
+}
 
 const reducer = (state = initialState, action) => {
 
+
   switch (action.type) {
-
-    case 'ON_MOVE_TO_RIGHT':
+    case actionsType.ON_MOVE:
       return{
         ...state,
-        data: moveRight(state, action.payload)
+        data: move(state, action.payload)
       }
-    case 'ON_MOVE_TO_LEFT':
-      return{
-        ...state,
-        data: moveLeft(state, action.payload)
-      }
-     
+    case actionsType.FETH_KEYS:
+      return Object.keys(state.data);
 
-    case 'FETH_GRID_REQUEST':
+    case actionsType.FETH_GRID_REQUEST:
       return {
-        data: [],
+        data: {},
         loading: true,
         error: null
       };
-    case 'FETH_GRID_SUCCESS':
+    case actionsType.FETH_GRID_SUCCESS:
       return {
-        data: action.payload,
-        loading: false,
-        error: null
+        data:     action.payload,
+        loading:  false,
+        error:    null
       };
 
-    case 'FETH_GRID_FAILURE':
+    case actionsType.FETH_GRID_FAILURE:
     return {
-      data: [],
-      loading: false,
-      error: action.payload
+      data:     {},
+      loading:  false,
+      error:    action.payload
     };
 
     default:
-      return state;
+      return state
   }
 };
 
-export default reducer;
+export default reducer
