@@ -26,9 +26,11 @@ import {
 
   render() {
       const { data, loading, error, onMove } = this.props
-      if( loading )     return <Spinner/>    
-      if( error )       return <ErrorIndicator/>
-      const keys = Object.keys(data)
+      if(loading)     
+        return <Spinner/>            
+      if(error)       
+        return <ErrorIndicator/>
+      const keys  = Object.keys(data)
       const grids =  keys.map(key => {
                       const idx     = keys.findIndex(el => el === key) 
                       const prev    = keys[idx - 1] 
@@ -40,8 +42,8 @@ import {
                                       isInfo      = { 'short' }
                                       name        = { key }  
                                       onMoveRight = { idx !== lastidx ? ids => onMove ({ from: key, to: next, ids })  : undefined }
-                                      onMoveLeft  = { idx !== 0       ? ids => onMove ({ from: key, to: prev, ids })   : undefined }
-                            />)})
+                                      onMoveLeft  = { idx !== 0       ? ids => onMove ({ from: key, to: prev, ids })  : undefined }
+                                />)})
       return ( <Router>
                   <div className = "stardb-app">
                     <Header />
@@ -51,11 +53,10 @@ import {
                     <Switch>                     
                         <Route    
                             path    = { "/:key" } 
-                            render  = { ({ match }) => {
-                              const { key } = match.params
+                            render  = { ({ match: { params: { key } } }) => {
                               const idx     = keys.findIndex(el => el === key) 
-                              const prev    =  keys[idx - 1] 
-                              const next    =  keys[idx + 1]
+                              const prev    = keys[idx - 1] 
+                              const next    = keys[idx + 1]
                               const lastidx = keys.length -1
                               return ( <div>      
                                           <TabPanel
