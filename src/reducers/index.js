@@ -22,9 +22,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         data: move(state, action.payload)
       }
-    case actionsType.FETH_KEYS:
-      return Object.keys(state.data)
-
     case actionsType.FETH_GRID_REQUEST:
       return {
         data: {},
