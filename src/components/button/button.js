@@ -8,8 +8,7 @@ import React, { Component }   from 'react'
                             type        = "button"  
                             className   = { `btn  btn-sm float-right ${side}-button` }
                             onClick     = { onMove }  >
-                        <i  
-                            className   = { `fa fa-arrow-${side}` } />
+                        <i  className   = { `fa fa-arrow-${side}` } />
                     </button>
             )   
         }
