@@ -11,7 +11,7 @@ export default class GridListItem extends Component {
       <li key         = { id } 
           className   = { `list-group-item ${ addClass }` }>
         <input  
-            type      ="checkbox" 
+            type      = "checkbox" 
             ref       = { el => el && (el.indeterminate = checkedAllInd) }
             onChange  = { toggleCheckbox }
             value     = { id }
@@ -21,13 +21,13 @@ export default class GridListItem extends Component {
           <span className="todo-list-item-label">
             { title }
           </span>   
-          { onMoveRight === defFunc ? undefined : 
+          { onMoveRight === defFunc ? null : 
                 <Buttom 
                     side    = { 'right' }
                     onMove  = { () => onMoveRight(ids) }
                 />             
           }
-          { onMoveLeft === defFunc ? undefined : 
+          { onMoveLeft === defFunc ? null : 
                 <Buttom 
                     side    = { 'left' }
                     onMove  = { () => onMoveLeft(ids) }  
@@ -38,7 +38,7 @@ export default class GridListItem extends Component {
     )
   }
 }
-const defFunc = () => { return false }
+const defFunc = () => { }
 GridListItem.defaultProps = {
   onMoveLeft: defFunc,
   onMoveRight: defFunc
