@@ -8,14 +8,14 @@ class Grid extends Component {
     checkedIds : []
   }
   componentDidUpdate (prevProps) {
-      if(this.props.gridData !== prevProps.gridData) this.updateItem()
+      if(this.props.gridData !== prevProps.gridData) 
+        this.updateItem()
   }
 
   updateItem () {
       const { gridData } = this.props
-      if(!gridData) {
+      if(!gridData)
         return
-      }       
       const newArray = this.state.checkedIds.filter(val => gridData.map(item => item.id).includes(val))
       this.setState({ checkedIds: newArray })    
   }
@@ -30,7 +30,8 @@ class Grid extends Component {
   toggleCheckbox = el => {    
       this.setState(({ checkedIds }) => {
         const { checked, value } = el.target
-        if(checked) return { checkedIds : [...checkedIds, value*1] }
+        if(checked) 
+          return { checkedIds : [...checkedIds, value*1] }
         else {
           const idx = checkedIds.findIndex(el => el === value*1)
           const newArray = [
@@ -50,9 +51,9 @@ class Grid extends Component {
     const checkedAll        = checkedIds.length === gridData.length && gridData.length > 0 
     const checkedAllInd     = !checkedAll && checkedIds.length > 0     
 
-    const elements =  gridData.map( item  => {
+    const elements =  gridData.map(item  => {
                           const { id,  ...itemProps } = item    
-                          const checked =  checkedIds.includes( id )
+                          const checked =  checkedIds.includes(id)
                           return (
                               <GridListItem 
                                       { ...itemProps }  
@@ -61,7 +62,7 @@ class Grid extends Component {
                                       id              = { id } 
                                       toggleCheckbox  = { this.toggleCheckbox }
                                       checked         = { checked }
-                                      ids             = { [ id ] }
+                                      ids             = { [id] }
                                       onMoveRight     = { onMoveRight }  
                                       onMoveLeft      = { onMoveLeft } 
                               />
